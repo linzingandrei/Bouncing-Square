@@ -1,1 +1,1 @@
-#Just a bouncing square made in C.
+# Just a bouncing square made in C.
