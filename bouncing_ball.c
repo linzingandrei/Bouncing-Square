@@ -1,13 +1,24 @@
 #include "../include/raylib.h"
+#include <emscripten/emscripten.h>
 
 Color GetRandomColor()
 {
     return (Color){ GetRandomValue(0, 255), GetRandomValue(0, 255), GetRandomValue(0, 255), 255 };
 }
 
+EM_JS(int, getWidth, (), {
+	return window.innerWidth;
+})
+
+EM_JS(int, getHeight, (), {
+	return window.innerHeight;
+})
+
 int main(void)
 {
-    InitWindow(1250, 850, "Raylib Window");
+    int x = getWidth(x);
+    int y = getHeight(y);
+    InitWindow(x, y, "Raylib Window");
 
     Vector2 ballPosition = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     Vector2 ballSpeed = { 5.0f, 4.0f };
@@ -52,7 +63,7 @@ int main(void)
 
         BeginDrawing();
 
-            ClearBackground(RAYWHITE);
+            ClearBackground(BLACK);
 
 	    DrawRectangleV(ballPosition, (Vector2){ ballRadius, ballRadius }, squareColor);
             DrawText("PRESS SPACE to PAUSE BALL MOVEMENT", 10, GetScreenHeight() - 25, 20, LIGHTGRAY);
@@ -65,6 +76,5 @@ int main(void)
     }
 
     CloseWindow();
-
     return 0;
 }
